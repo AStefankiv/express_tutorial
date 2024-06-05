@@ -14,9 +14,23 @@ app.get('/api/products', (req, res) => {
   res.json(newProducts);
 });
 
-app.get('/api/products/1', (req, res) => {
-  const singleProduct = products.find((product) => product.id === 1);
+app.get('/api/products/:productID', (req, res) => {
+  // console.log('Req', req);
+  // console.log('Req params', req.params);
+  const { productID } = req.params;
+  const singleProduct = products.find(
+    (product) => product.id === Number(productID));
+  if (!singleProduct) {
+    return res.status(404).send('Product does not exist');
+  }
+
+  console.log('Single Product', singleProduct);
   res.json(singleProduct);
+});
+
+app.get('/api/products/:productID/reviews/:reviewID', (req, res) => {
+  console.log('Req params', req.params);
+  res.send('Hello World');
 });
 
 app.listen(5000, () => {
